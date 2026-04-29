@@ -22,8 +22,6 @@ import { Todo, Category, CATEGORIES } from './types';
 export default function App() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const [isSigningIn, setIsSigningIn] = useState(false);
-  const [authError, setAuthError] = useState<string | null>(null);
   const [todos, setTodos] = useState<Todo[]>([]);
   const [filter, setFilter] = useState<'all' | 'active' | 'completed'>('all');
   const [activeCategory, setActiveCategory] = useState<Category | 'all'>('all');
@@ -138,34 +136,6 @@ export default function App() {
     pending: todos.filter(t => !t.completed).length,
   };
 
-  const handleLogin = async () => {
-    if (isSigningIn) return;
-
-    setAuthError(null);
-    setIsSigningIn(true);
-
-    try {
-      await loginWithGoogle();
-    } catch (err) {
-      const code = (err as { code?: string })?.code;
-
-      // These are expected when a popup is cancelled/replaced.
-      if (code === 'auth/cancelled-popup-request' || code === 'auth/popup-closed-by-user') {
-        return;
-      }
-
-      if (code === 'auth/unauthorized-domain') {
-        setAuthError('This domain is not authorized in Firebase Auth. Add localhost in Authentication > Settings > Authorized domains.');
-      } else {
-        setAuthError('Google sign-in failed. Please try again.');
-      }
-
-      console.error('Google sign-in failed:', err);
-    } finally {
-      setIsSigningIn(false);
-    }
-  };
-
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50">
@@ -183,7 +153,7 @@ export default function App() {
           animate={{ opacity: 1, y: 0 }}
           className="max-w-md w-full glass p-10 rounded-[3rem] shadow-soft border border-slate-200 text-center space-y-8 relative z-10"
         >
-          <div className="inline-flex p-4 bg-brand-primary rounded-3xl text-white shadow-xl shadow-green-500/30">
+          <div className="inline-flex p-4 bg-brand-primary rounded-3xl text-white shadow-xl shadow-blue-500/30">
             <Target className="w-10 h-10" />
           </div>
           <div className="space-y-2">
@@ -194,20 +164,12 @@ export default function App() {
           </div>
           <button
             id="login-button"
-            onClick={handleLogin}
-            disabled={isSigningIn}
-            className="w-full flex items-center justify-center gap-3 bg-white text-slate-700 font-bold py-4 px-8 rounded-2xl border-2 border-slate-100 hover:border-brand-primary hover:text-brand-primary transition-all shadow-sm group disabled:opacity-60 disabled:cursor-not-allowed"
+            onClick={loginWithGoogle}
+            className="w-full flex items-center justify-center gap-3 bg-white text-slate-700 font-bold py-4 px-8 rounded-2xl border-2 border-slate-100 hover:border-brand-primary hover:text-brand-primary transition-all shadow-sm group"
           >
-            {isSigningIn ? (
-              <Loader2 className="w-5 h-5 animate-spin" />
-            ) : (
-              <LogIn className="w-5 h-5 group-hover:scale-110 transition-transform" />
-            )}
-            {isSigningIn ? 'Signing in...' : 'Continue with Google'}
+            <LogIn className="w-5 h-5 group-hover:scale-110 transition-transform" />
+            Continue with Google
           </button>
-          {authError && (
-            <p className="text-xs text-rose-600 font-medium leading-relaxed">{authError}</p>
-          )}
           <p className="text-[10px] text-slate-400 uppercase tracking-widest font-bold">Secure Authentication via Firebase</p>
         </motion.div>
       </div>
@@ -227,7 +189,7 @@ export default function App() {
                 animate={{ x: 0, opacity: 1 }}
                 className="flex items-center gap-3"
               >
-                <div className="p-2.5 bg-brand-primary rounded-xl text-white shadow-lg shadow-green-500/20">
+                <div className="p-2.5 bg-brand-primary rounded-xl text-white shadow-lg shadow-blue-500/20">
                   <Target className="w-6 h-6" />
                 </div>
                 <h1 className="text-3xl font-bold tracking-tight text-slate-900">TaskFlow</h1>
