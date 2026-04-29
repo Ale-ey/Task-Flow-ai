@@ -1,0 +1,41 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile document",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "lastLogin": { "type": "object", "description": "Server timestamp of last login" }
+      },
+      "required": ["uid", "email"]
+    },
+    "Todo": {
+      "title": "Todo",
+      "description": "A single task item",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "text": { "type": "string" },
+        "completed": { "type": "boolean" },
+        "category": { "type": "string", "enum": ["personal", "work", "shopping", "health", "urgent"] },
+        "userId": { "type": "string" },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["id", "text", "completed", "category", "userId", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles"
+    },
+    "/users/{userId}/todos/{todoId}": {
+      "schema": "Todo",
+      "description": "User-specific tasks"
+    }
+  }
+}
