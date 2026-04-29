@@ -157,7 +157,7 @@ export default function App() {
             <Target className="w-10 h-10" />
           </div>
           <div className="space-y-2">
-            <h1 className="text-4xl font-extrabold tracking-tight text-slate-900">TaskFlow</h1>
+            <h1 className="text-4xl font-extrabold tracking-tight text-slate-900">Tasked</h1>
             <p className="text-slate-500 font-medium leading-relaxed">
               Experience the next generation of task management. Built for speed, designed for clarity.
             </p>
@@ -192,7 +192,7 @@ export default function App() {
                 <div className="p-2.5 bg-brand-primary rounded-xl text-white shadow-lg shadow-blue-500/20">
                   <Target className="w-6 h-6" />
                 </div>
-                <h1 className="text-3xl font-bold tracking-tight text-slate-900">TaskFlow</h1>
+                <h1 className="text-3xl font-bold tracking-tight text-slate-900">Tasked</h1>
               </motion.div>
               <p className="text-slate-500 font-medium ml-1">Hey, {user.displayName?.split(' ')[0]}! Ready for today?</p>
             </div>
