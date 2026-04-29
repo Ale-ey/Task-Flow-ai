@@ -15,8 +15,8 @@ export interface Todo {
 }
 
 export const CATEGORIES: { value: Category; label: string; color: string }[] = [
-  { value: 'personal', label: 'Personal', color: 'bg-blue-500' },
-  { value: 'work', label: 'Work', color: 'bg-indigo-500' },
+  { value: 'personal', label: 'Personal', color: 'bg-green-500' },
+  { value: 'work', label: 'Work', color: 'bg-lime-500' },
   { value: 'shopping', label: 'Shopping', color: 'bg-amber-500' },
   { value: 'health', label: 'Health', color: 'bg-emerald-500' },
   { value: 'urgent', label: 'Urgent', color: 'bg-rose-500' },
